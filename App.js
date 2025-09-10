@@ -4,15 +4,25 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity, SafeAreaView, FlatList
 export default function App() {
 
   const [modalGet, setModalGetVisivel] = useState(false)
+  const [modalGetID, setModalGetID] = useState(false)
   const [modalPut, setModalPutVisivel] = useState(false)
   const [modalPost, setModalPostVisivel] = useState(false)
   const [modalDelete, setModalDeleteVisivel] = useState(false)
+
+  const [idDigitado,setIDDigitado] = useState("")
 
   const renderizarItem = ({ item }) => (
     <View>
       <Text>{item.id} - {item.title}</Text>
     </View>
   );
+
+  // --- Função GET BY ID---
+  const pesquisarPorID = async () => {
+    await executarConsulta("SELECT * FROM camisetas WHERE id LIKE ?;", [
+      `%${idDigitado}%`,
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -21,6 +31,10 @@ export default function App() {
 
         <TouchableOpacity onPress={() => setModalGetVisivel(true)}>
           <Text>GET</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setModalGetIDVisivel(true)}>
+          <Text>GET By ID</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setModalPutVisivel(true)}>
@@ -58,6 +72,32 @@ export default function App() {
             renderItem={renderizarItem}
           />
         </View>
+      </Modal>
+
+      {/* Get By ID*/}
+      <Modal
+        visible={modalPut}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalPutVisivel(false)}
+      >
+        <TextInput
+          style={estilos.campoTexto}
+          placeholder="Digite um ID"
+          placeholderTextColor="#6B7280"
+          value={idDigitado}
+          onChangeText={(texto) => {
+            setIDDigitado(texto);
+            setTemTexto(texto.trim().length > 0);
+          }}
+        />
+        <TouchableOpacity
+          style={estilos.botao}
+          onPress={pesquisarPorID}
+          disabled={!db}
+        >
+          <Text style={estilos.textoBotao}>🔎</Text>
+        </TouchableOpacity>
       </Modal>
 
       {/* Put */}

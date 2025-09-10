@@ -8,6 +8,8 @@ export default function App() {
   const [modalPost, setModalPostVisivel] = useState(false)
   const [modalDelete, setModalDeleteVisivel] = useState(false)
 
+  const URL_API = 'http://10.136.38.149:3000'
+
   const renderizarItem = ({ item }) => (
     <View>
       <Text>{item.id} - {item.title}</Text>

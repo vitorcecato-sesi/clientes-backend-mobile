@@ -35,11 +35,38 @@ function createCliente(cliente, callback) {
         callback(err, { id: this.lastID });
     });
 }
-// Função para atualizar um cliente existente 
+// Função para atualizar um cliente existente  
 function updateCliente(id, cliente, callback) {
-    const { nome, cpf, email, telefone } = cliente;
+    const fields = [];
+    const values = [];
+
+    if (cliente.nome) {
+        fields.push("nome = ?");
+        values.push(cliente.nome);
+    }
+    if (cliente.cpf) {
+        fields.push("cpf = ?");
+        values.push(cliente.cpf);
+    }
+    if (cliente.email) {
+        fields.push("email = ?");
+        values.push(cliente.email);
+    }
+    if (cliente.telefone) {
+        fields.push("telefone = ?");
+        values.push(cliente.telefone);
+    }
+
+    if (fields.length === 0) {
+        // Nada para atualizar
+        return callback(null, { changes: 0 });
+    }
+
     const db = openDbConnection();
-    db.run("UPDATE clientes SET nome = ?, cpf = ?, email = ?, telefone = ? WHERE id = ?", [nome, cpf, email, telefone, id], function (err) {
+    const comando = `UPDATE clientes SET ${fields.join(", ")} WHERE id = ?`;
+    values.push(id);
+
+    db.run(comando, values, function (err) {
         db.close();
         callback(err, { changes: this.changes });
     });

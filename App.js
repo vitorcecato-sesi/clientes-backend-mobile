@@ -141,12 +141,14 @@ export default function App() {
 
   const metodoDelete = async () => {
     try {
+      // Realiza a chamada
       const response = await fetch(`${URL_API}/clientes/${id}`, {
         method: "DELETE",
       })
+      // Variável para realizar o armazenamento da resposta (não utilizada)
       const dadosBD = await response.json()
-      metodoGetAll()
-      limparCampos()
+      metodoGetAll()  // Chama para atualizar os ids
+      limparCampos()  // Limpa os campos
     } catch (error) {
       setErroMsg("Erro ao deletar cliente")
     }

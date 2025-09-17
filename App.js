@@ -70,8 +70,10 @@ export default function App() {
     }
   }
 
+  // Função assíncrona para atualizar um cliente (PUT)
   const metodoPut = async () => {
     try {
+      // Busca os dados atuais do cliente para usar como plano b
       metodoGetId()
     } catch (error) {
       console.log(error)
@@ -80,11 +82,14 @@ export default function App() {
     console.log(data)
     
     try {
+      // Envia a requisição PUT para a API
       const response = await fetch(`${URL_API}/clientes/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        // Corpo da requisição com os dados a serem atualizados
+        // Se um campo estiver vazio, mantém o valor antigo (do estado 'data')
         body: JSON.stringify({
           nome: nome.trim() ? nome : data.nome,
           cpf: cpf.trim() ? cpf : data.cpf,
@@ -98,10 +103,15 @@ export default function App() {
           email: email.trim() ? email : data.email,
           telefone: telefone.trim() ? telefone : data.telefone,
         })})
+        
+      // Converte a resposta da API para JSON
       const dadosBD = await response.json()
+      // Atualiza a lista de clientes na tela
       metodoGetAll()
+      // Limpa os campos de input
       limparCampos()
     } catch (error) {
+      // Define uma mensagem de erro em caso de falha
       setErroMsg("Erro ao atualizar cliente")
     }
   }
@@ -129,17 +139,23 @@ export default function App() {
     metodoGetId()
   }
 
+  // Função para validar os campos antes de atualizar (PUT)
   const validarCamposPut = () => {
+    // Verifica se o ID do cliente foi preenchido
     if (!id) {
       setErroMsg("Digite o ID do cliente para atualizar")
       return
     }
+    // Verifica se pelo menos um dos campos foi preenchido
     if (!nome && !cpf && !email && !telefone) {
       setErroMsg("Digite ao menos um campo para atualizar")
       return
     }
+    // Limpa a mensagem de erro se a validação passar
     setErroMsg("")
+    // Chama a função para executar o método PUT
     metodoPut()
+    // Fecha o modal de atualização
     setModalPutVisivel(false)
   }
 

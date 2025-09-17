@@ -22,7 +22,7 @@ export default function App() {
   const [telefone, setTelefone] = useState("")
 
   // Configuração Backend -----------------------------------
-  const ipLocal = "192.168.15.6"
+  const ipLocal = "10.136.38.181"
   const porta = "3000"
   const URL_API = `http://${ipLocal}:${porta}`
 

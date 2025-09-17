@@ -22,7 +22,7 @@ export default function App() {
   const [telefone, setTelefone] = useState("")
 
   // Configuração Backend -----------------------------------
-  const ipLocal = "192.168.15.6"
+  const ipLocal = "10.136.38.152"
   const porta = "3000"
   const URL_API = `http://${ipLocal}:${porta}`
 
@@ -35,9 +35,11 @@ export default function App() {
       setData(dadosBD)
     } catch (error) {
       setErroMsg("Erro ao buscar dados do cliente")
+      console.error(error)
     }
   }
 
+  //Metodo Get Cliente por ID
   const metodoGetId = async () => {
     try {
       const response = await fetch(`${URL_API}/clientes/${id}`)
@@ -230,9 +232,10 @@ export default function App() {
               >
                 <Text style={styles.actionButtonText}>Buscar Todos</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#2196F3" }]}
-                onPress={validarCamposGetId}
+                onPress={validarCamposGetId} //Chama a função que valida o campo e procura o cliente pelo ID
               >
                 <Text style={styles.actionButtonText}>Buscar por ID</Text>
               </TouchableOpacity>
@@ -241,17 +244,20 @@ export default function App() {
               placeholder="ID do Cliente"
               value={id}
               onChangeText={setId}
-              keyboardType="numeric"
+              keyboardType="numeric" //Teclado numerico
               style={styles.input}
               placeholderTextColor="#888"
             />
-            {erroMsg ? <Text style={styles.erroMsg}>{erroMsg}</Text> : null}
+            {erroMsg ? <Text style={styles.erroMsg}>{erroMsg}</Text> : null} {/* Mensagem de erro */}
+            
             <FlatList
-              data={data}
+              data={data} // Dados do cliente 
               keyExtractor={(item, index) => (item.id ? item.id.toString() : index.toString())}
-              renderItem={renderizarItem}
+              //Se tiver o id vai transformar em string para renderizar, se nao tiver vai usar o index como id
+              renderItem={renderizarItem} //Vai renderizar o cliente do ID digitado
               style={styles.lista}
-              ListEmptyComponent={<Text style={{ textAlign: "center", color: "#555", marginTop: 20 }}>Nenhum cliente encontrado.</Text>}
+              ListEmptyComponent={ //Se a lista estiver vazia mostra a mensagem
+              <Text style={{ textAlign: "center", color: "#555", marginTop: 20 }}>Nenhum cliente encontrado.</Text>}
             />
             <TouchableOpacity
               style={styles.fecharButton}

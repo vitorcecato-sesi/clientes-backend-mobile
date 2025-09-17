@@ -20,5 +20,17 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitorcecato-sesi/clientes-backend-mobile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitorcecato-sesi/clientes-backend-mobile/issues"
+  },
+  "homepage": "https://github.com/vitorcecato-sesi/clientes-backend-mobile#readme"
 }

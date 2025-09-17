@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Modal, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Modal, TouchableOpacity, SafeAreaView, FlatList, TextInput } from 'react-native';
 
 export default function App() {
 
@@ -85,7 +85,7 @@ export default function App() {
       >
         <View> 
           <TextInput
-          style={estilos.campoTexto}
+          style={styles.campoTexto}
           placeholder="Digite um ID"
           placeholderTextColor="#6B7280"
           value={idDigitado}
@@ -94,11 +94,11 @@ export default function App() {
           />
 
           <TouchableOpacity
-          style={estilos.botao}
+          style={styles.botao}
           onPress={pesquisarPorID}
           disabled={!db}
           >
-            <Text style={estilos.textoBotao}>🔎</Text>
+            <Text style={styles.textoBotao}>🔎</Text>
           </TouchableOpacity>
 
           <FlatList

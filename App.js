@@ -50,11 +50,15 @@ export default function App() {
 
   const metodoPost = async () => {
     try {
+      // Aguarda a resposta do fetch (requisição da API)
       const response = await fetch(`${URL_API}/clientes/`, {
+        // Escolhe qual método será usado
         method: "POST",
+        // Define o tipo de dado que será enviado (padrão JSON)
         headers: {
           "Content-Type": "application/json",
         },
+        // Deixa o corpo da requisição com o padrão do itens que existem no banco de dados, transformando em JSON
         body: JSON.stringify({
           nome: nome,
           cpf: cpf,
@@ -62,11 +66,16 @@ export default function App() {
           telefone: telefone,
         }),
       })
+      // Transforma a resposta em JSON
       const dadosBD = await response.json()
+      // Atualiza o estado "data" com os dados recebidos do backend
       setData([dadosBD])
+      // Depois de cadastrar, limpa os campos, para caso for usar novamente e não dar duplicidade
       limparCampos()
     } catch (error) {
-      setErroMsg("Erro ao cadastrar cliente")
+      // Caso der erro, exibe a mensagem
+      setErroMsg("Erro ao cadastrar cliente! Verifique o console para detalhes.")
+      console.log(error)
     }
   }
 
@@ -342,10 +351,14 @@ export default function App() {
         transparent={true}
         onRequestClose={() => setModalPostVisivel(false)}
       >
+
         <View style={styles.modalOverlay}>
+
           <View style={styles.modalArea}>
+
             <ScrollView>
               <Text style={styles.modalTitulo}>Cadastrar Cliente</Text>
+
               <TextInput
                 placeholder="Nome"
                 value={nome}
@@ -354,6 +367,7 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               <TextInput
                 placeholder="CPF"
                 value={cpf}
@@ -363,6 +377,7 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               <TextInput
                 placeholder="Email"
                 value={email}
@@ -372,6 +387,7 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               <TextInput
                 placeholder="Telefone"
                 value={telefone}
@@ -381,20 +397,28 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               {erroMsg ? <Text style={styles.erroMsg}>{erroMsg}</Text> : null}
+
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#FF9800" }]}
                 onPress={validarCamposPost}
               >
+
                 <Text style={styles.actionButtonText}>Cadastrar</Text>
+
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.fecharButton}
                 onPress={() => { setModalPostVisivel(false); setErroMsg(""); setNome(""); setCpf(""); setEmail(""); setTelefone(""); setData([]); }}
               >
+
                 <Text style={styles.fecharButtonText}>Fechar</Text>
+
               </TouchableOpacity>
             </ScrollView>
+            
           </View>
         </View>
       </Modal>

@@ -28,13 +28,13 @@ export default function App() {
 
   // Função fetch para metodos GET, POST, PUT e DELETE
 
-  const metodoGettAll = async () => { // Buscar todos os clientes
+  const metodoGettAll = async () => { // buscar todos os clientes
     try {
-      const response = await fetch(`${URL_API}/clientes/`) // Chamada para API
-      const dadosBD = await response.json() // Converter para JSON
-      setData(dadosBD) // Armazenar os dados no state
-    } catch (error) { // Em caso de erro
-      setErroMsg("Erro ao buscar dados do cliente") // Mensagem de erro
+      const response = await fetch(`${URL_API}/clientes/`) // chamada para API
+      const dadosBD = await response.json() // converte para JSON
+      setData(dadosBD) // armazena os dados no state
+    } catch (error) { // em caso de erro
+      setErroMsg("Erro ao buscar dados do cliente") //  a mensagem de erro
     }
   }
 

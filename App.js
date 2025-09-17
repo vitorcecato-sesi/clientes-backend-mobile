@@ -100,17 +100,22 @@ export default function App() {
     }
   }
  //pega o id do cliente para deletar
+
   const metodoDelete = async () => {
     try {
       const response = await fetch(`${URL_API}/clientes/${id}`, {
+        //Pega o id do cliente  na api utilizando o metodo DELETE
         method: "DELETE",
-  })
+      })
+      const dadosBD = await response.json()
+      //pega a resoista do banco de dados e armazena na variavel 
       limparCampos()
+      //limpa os campos
     } catch (error) {
       setErroMsg("Erro ao deletar cliente")
+      //se ne tiver erro, mostra a mensagem
     }
   }
-
   // Validações
   const validarCamposGetId = () => {
     if (!id) {

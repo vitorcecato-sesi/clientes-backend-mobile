@@ -99,14 +99,12 @@ export default function App() {
       setErroMsg("Erro ao atualizar cliente")
     }
   }
-
-  const metodoDelete = async (id) => {
+ //pega o id do cliente para deletar
+  const metodoDelete = async () => {
     try {
       const response = await fetch(`${URL_API}/clientes/${id}`, {
         method: "DELETE",
-      })
-      const dadosBD = await response.json()
-      setData([dadosBD])
+  })
       limparCampos()
     } catch (error) {
       setErroMsg("Erro ao deletar cliente")

@@ -147,12 +147,16 @@ export default function App() {
   }
 
   const validarCamposPost = () => {
+    // Caso algum dos campos esteja vazio, exibe a mensagem de erro
     if (!nome || !cpf || !email || !telefone) {
       setErroMsg("Preencha todos os campos")
       return
     }
+    // Limpa a mensagem de erro (caso tenha algo)
     setErroMsg("")
+    // Chama o método POST
     metodoPost()
+    // Fecha o modal
     setModalPostVisivel(false)
   }
 

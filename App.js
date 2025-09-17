@@ -4,24 +4,33 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity, SafeAreaView, FlatList
 export default function App() {
 
   const [modalGet, setModalGetVisivel] = useState(false)
-  const [modalGetID, setModalGetID] = useState(false)
+  const [modalGetByID, setModalGetByIDVisivel] = useState(false)
   const [modalPut, setModalPutVisivel] = useState(false)
   const [modalPost, setModalPostVisivel] = useState(false)
   const [modalDelete, setModalDeleteVisivel] = useState(false)
 
   const [idDigitado,setIDDigitado] = useState("")
 
+  // Renderização do item
   const renderizarItem = ({ item }) => (
-    <View>
-      <Text>{item.id} - {item.title}</Text>
+    <View style={styles.cardCliente}>
+      <Text style={styles.cardId}>ID: <Text style={styles.cardValue}>{item.id}</Text></Text>
+      <Text style={styles.cardLabel}>Nome: <Text style={styles.cardValue}>{item.nome}</Text></Text>
+      <Text style={styles.cardLabel}>CPF: <Text style={styles.cardValue}>{item.cpf}</Text></Text>
+      <Text style={styles.cardLabel}>Email: <Text style={styles.cardValue}>{item.email}</Text></Text>
+      <Text style={styles.cardLabel}>Telefone: <Text style={styles.cardValue}>{item.telefone}</Text></Text>
     </View>
-  );
+  )
 
   // --- Função GET BY ID---
   const pesquisarPorID = async () => {
-    await executarConsulta("SELECT * FROM camisetas WHERE id LIKE ?;", [
-      `%${idDigitado}%`,
-    ]);
+    try {
+      const response = await fetch(`${URL_API}/clientes/${idDigitado}`)
+      const dadosBD = await response.json()
+      setData([dadosBD])
+    } catch (error) {
+      setErroMsg("Erro ao buscar dados do cliente")
+    }
   };
 
   return (
@@ -33,7 +42,7 @@ export default function App() {
           <Text>GET</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => setModalGetIDVisivel(true)}>
+        <TouchableOpacity onPress={() => setModalGetByIDVisivel(true)}>
           <Text>GET By ID</Text>
         </TouchableOpacity>
 
@@ -61,13 +70,6 @@ export default function App() {
       >
         <View>
           <FlatList
-            data={[
-              { id: 1, title: 'Item 1' },
-              { id: 2, title: 'Item 2' },
-              { id: 3, title: 'Item 3' },
-              { id: 4, title: 'Item 4' },
-              { id: 5, title: 'Item 5' },
-            ]}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderizarItem}
           />
@@ -76,28 +78,44 @@ export default function App() {
 
       {/* Get By ID*/}
       <Modal
-        visible={modalPut}
+        visible={modalGetByID}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setModalPutVisivel(false)}
+        onRequestClose={() => setModalGetByIDVisivel(false)}
       >
-        <TextInput
+        <View> 
+          <TextInput
           style={estilos.campoTexto}
           placeholder="Digite um ID"
           placeholderTextColor="#6B7280"
           value={idDigitado}
-          onChangeText={(texto) => {
-            setIDDigitado(texto);
-            setTemTexto(texto.trim().length > 0);
-          }}
-        />
-        <TouchableOpacity
+          onChangeText={setIDDigitado}
+          keyboardType="numeric"
+          />
+
+          <TouchableOpacity
           style={estilos.botao}
           onPress={pesquisarPorID}
           disabled={!db}
-        >
-          <Text style={estilos.textoBotao}>🔎</Text>
-        </TouchableOpacity>
+          >
+            <Text style={estilos.textoBotao}>🔎</Text>
+          </TouchableOpacity>
+
+          <FlatList
+          data={data}
+          keyExtractor={(item, index) => (item.id ? item.id.toString() : index.toString())}
+          renderItem={renderizarItem}
+          style={styles.lista}
+          ListEmptyComponent={<Text style={{ textAlign: "center", color: "#555", marginTop: 20 }}>Nenhum cliente com esse ID encontrado.</Text>}
+          />
+        
+          <TouchableOpacity
+            style={styles.fecharButton}
+            onPress={() => { setModalGetVisivel(false); setErroMsg(""); setData([]); setId(""); }}
+          >
+            <Text style={styles.fecharButtonText}>Fechar</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
 
       {/* Put */}

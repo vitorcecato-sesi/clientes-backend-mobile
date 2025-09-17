@@ -22,7 +22,7 @@ export default function App() {
   const [telefone, setTelefone] = useState("")
 
   // Configuração Backend -----------------------------------
-  const ipLocal = "192.168.15.6"
+  const ipLocal = "10.249.17.47"
   const porta = "3000"
   const URL_API = `http://${ipLocal}:${porta}`
 
@@ -68,6 +68,7 @@ export default function App() {
       })
       // Transforma a resposta em JSON
       const dadosBD = await response.json()
+      metodoGetAll()
       // Atualiza o estado "data" com os dados recebidos do backend
       setData([dadosBD])
       // Depois de cadastrar, limpa os campos, para caso for usar novamente e não dar duplicidade
@@ -101,8 +102,14 @@ export default function App() {
           telefone: telefone.trim() ? telefone : data.telefone,
         }),
       })
+      console.log({body: JSON.stringify({
+          nome: nome.trim() ? nome : data.nome,
+          cpf: cpf.trim() ? cpf : data.cpf,
+          email: email.trim() ? email : data.email,
+          telefone: telefone.trim() ? telefone : data.telefone,
+        })})
       const dadosBD = await response.json()
-      setData([dadosBD])
+      metodoGetAll()
       limparCampos()
     } catch (error) {
       setErroMsg("Erro ao atualizar cliente")
@@ -115,7 +122,7 @@ export default function App() {
         method: "DELETE",
       })
       const dadosBD = await response.json()
-      setData([dadosBD])
+      metodoGetAll()
       limparCampos()
     } catch (error) {
       setErroMsg("Erro ao deletar cliente")

@@ -28,7 +28,7 @@ export default function App() {
 
   // Função fetch para metodos GET, POST, PUT e DELETE
 
-  const metodoGettAll = async () => { // buscar todos os clientes
+  const metodoGetAll = async () => { // buscar todos os clientes
     try {
       const response = await fetch(`${URL_API}/clientes/`) // chamada para API
       const dadosBD = await response.json() // converte para JSON
@@ -50,11 +50,15 @@ export default function App() {
 
   const metodoPost = async () => {
     try {
+      // Aguarda a resposta do fetch (requisição da API)
       const response = await fetch(`${URL_API}/clientes/`, {
+        // Escolhe qual método será usado
         method: "POST",
+        // Define o tipo de dado que será enviado (padrão JSON)
         headers: {
           "Content-Type": "application/json",
         },
+        // Deixa o corpo da requisição com o padrão do itens que existem no banco de dados, transformando em JSON
         body: JSON.stringify({
           nome: nome,
           cpf: cpf,
@@ -62,16 +66,24 @@ export default function App() {
           telefone: telefone,
         }),
       })
+      // Transforma a resposta em JSON
       const dadosBD = await response.json()
       metodoGetAll()
+      // Atualiza o estado "data" com os dados recebidos do backend
+      setData([dadosBD])
+      // Depois de cadastrar, limpa os campos, para caso for usar novamente e não dar duplicidade
       limparCampos()
     } catch (error) {
-      setErroMsg("Erro ao cadastrar cliente")
+      // Caso der erro, exibe a mensagem
+      setErroMsg("Erro ao cadastrar cliente! Verifique o console para detalhes.")
+      console.log(error)
     }
   }
 
+  // Função assíncrona para atualizar um cliente (PUT)
   const metodoPut = async () => {
     try {
+      // Busca os dados atuais do cliente para usar como plano b
       metodoGetId()
     } catch (error) {
       console.log(error)
@@ -80,11 +92,14 @@ export default function App() {
     console.log(data)
     
     try {
+      // Envia a requisição PUT para a API
       const response = await fetch(`${URL_API}/clientes/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        // Corpo da requisição com os dados a serem atualizados
+        // Se um campo estiver vazio, mantém o valor antigo (do estado 'data')
         body: JSON.stringify({
           nome: nome.trim() ? nome : data.nome,
           cpf: cpf.trim() ? cpf : data.cpf,
@@ -98,10 +113,15 @@ export default function App() {
           email: email.trim() ? email : data.email,
           telefone: telefone.trim() ? telefone : data.telefone,
         })})
+        
+      // Converte a resposta da API para JSON
       const dadosBD = await response.json()
+      // Atualiza a lista de clientes na tela
       metodoGetAll()
+      // Limpa os campos de input
       limparCampos()
     } catch (error) {
+      // Define uma mensagem de erro em caso de falha
       setErroMsg("Erro ao atualizar cliente")
     }
   }
@@ -129,27 +149,37 @@ export default function App() {
     metodoGetId()
   }
 
+  // Função para validar os campos antes de atualizar (PUT)
   const validarCamposPut = () => {
+    // Verifica se o ID do cliente foi preenchido
     if (!id) {
       setErroMsg("Digite o ID do cliente para atualizar")
       return
     }
+    // Verifica se pelo menos um dos campos foi preenchido
     if (!nome && !cpf && !email && !telefone) {
       setErroMsg("Digite ao menos um campo para atualizar")
       return
     }
+    // Limpa a mensagem de erro se a validação passar
     setErroMsg("")
+    // Chama a função para executar o método PUT
     metodoPut()
+    // Fecha o modal de atualização
     setModalPutVisivel(false)
   }
 
   const validarCamposPost = () => {
+    // Caso algum dos campos esteja vazio, exibe a mensagem de erro
     if (!nome || !cpf || !email || !telefone) {
       setErroMsg("Preencha todos os campos")
       return
     }
+    // Limpa a mensagem de erro (caso tenha algo)
     setErroMsg("")
+    // Chama o método POST
     metodoPost()
+    // Fecha o modal
     setModalPostVisivel(false)
   }
 
@@ -232,7 +262,7 @@ export default function App() {
             <View style={styles.rowButtons}>
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#bc66f5ff" }]}
-                onPress={metodoGettAll}
+                onPress={metodoGetAll}
               >
                 <Text style={styles.actionButtonText}>Buscar Clientes</Text>
               </TouchableOpacity>
@@ -348,10 +378,14 @@ export default function App() {
         transparent={true}
         onRequestClose={() => setModalPostVisivel(false)}
       >
+
         <View style={styles.modalOverlay}>
+
           <View style={styles.modalArea}>
+
             <ScrollView>
               <Text style={styles.modalTitulo}>Cadastrar Cliente</Text>
+
               <TextInput
                 placeholder="Nome"
                 value={nome}
@@ -360,6 +394,7 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               <TextInput
                 placeholder="CPF"
                 value={cpf}
@@ -369,6 +404,7 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               <TextInput
                 placeholder="Email"
                 value={email}
@@ -378,6 +414,7 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               <TextInput
                 placeholder="Telefone"
                 value={telefone}
@@ -387,20 +424,28 @@ export default function App() {
                 style={styles.input}
                 placeholderTextColor="#888"
               />
+
               {erroMsg ? <Text style={styles.erroMsg}>{erroMsg}</Text> : null}
+
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#FF9800" }]}
                 onPress={validarCamposPost}
               >
+
                 <Text style={styles.actionButtonText}>Cadastrar</Text>
+
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.fecharButton}
                 onPress={() => { setModalPostVisivel(false); setErroMsg(""); setNome(""); setCpf(""); setEmail(""); setTelefone(""); setData([]); }}
               >
+
                 <Text style={styles.fecharButtonText}>Fechar</Text>
+
               </TouchableOpacity>
             </ScrollView>
+            
           </View>
         </View>
       </Modal>

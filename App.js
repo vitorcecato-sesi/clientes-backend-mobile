@@ -40,18 +40,26 @@ export default function App() {
 
   //Metodo Get Cliente por ID
   const metodoGetId = async () => {
-    try {
-      const response = await fetch(`${URL_API}/clientes/${id}`)
-      const dadosBD = await response.json()
-      if (Array.isArray(dadosBD)) {
-        setData(dadosBD)
-      } else {
-        setErroMsg("Cliente não encontrado")
-      }
-    } catch (error) {
-      setErroMsg("Erro ao buscar dados do cliente")
+  try {
+    const response = await fetch(`${URL_API}/clientes/${id}`) // chamada para api
+    const dadosBD = await response.json() // armazena os dados
+    console.log(dadosBD)  // mostra no console log para o dev
+    
+    // Validação para ver se o item retornado não possui mensagem (caracteristica de erro)
+    if ( !dadosBD.message ) {
+      // se não tiver, irá validar o data e removera a mensagem de erro
+
+      setErroMsg("")
+      setData([dadosBD])
+
+    } else {  // Caso tenha, informara que o cliente não foi encontrado
+      setData(null)
+      setErroMsg("Cliente não encontrado")
     }
+  } catch (error) {
+    setErroMsg("Erro ao buscar dados do cliente")
   }
+}
 
   const metodoPost = async () => {
     try {

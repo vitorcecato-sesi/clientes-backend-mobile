@@ -262,7 +262,7 @@ export default function App() {
             <View style={styles.rowButtons}>
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#bc66f5ff" }]}
-                onPress={metodoGettAll}
+                onPress={metodoGetAll}
               >
                 <Text style={styles.actionButtonText}>Buscar Clientes</Text>
               </TouchableOpacity>

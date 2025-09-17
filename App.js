@@ -18,7 +18,7 @@ export default function App() {
   const [telefone, setTelefone] = useState("")
 
   // Configuração Backend -----------------------------------
-  const ipLocal = "192.168.15.6"
+  const ipLocal = "10.136.38.181"
   const porta = "3000"
   const URL_API = `http://${ipLocal}:${porta}`
 
@@ -60,6 +60,20 @@ const metodoPut = async () => {
     } catch (error) {
       setErroMsg("Erro ao atualizar cliente")
     }
+  }
+
+    const validarCamposPut = () => {
+    if (!id) {
+      setErroMsg("Digite o ID do cliente para atualizar")
+      return
+    }
+    if (!nome && !cpf && !email && !telefone) {
+      setErroMsg("Digite ao menos um campo para atualizar")
+      return
+    }
+    setErroMsg("")
+    metodoPut()
+    setModalPutVisivel(false)
   }
 
   const renderizarItem = ({ item }) => (

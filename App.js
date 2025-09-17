@@ -63,7 +63,7 @@ export default function App() {
         }),
       })
       const dadosBD = await response.json()
-      setData([dadosBD])
+      metodoGetAll()
       limparCampos()
     } catch (error) {
       setErroMsg("Erro ao cadastrar cliente")
@@ -92,8 +92,14 @@ export default function App() {
           telefone: telefone.trim() ? telefone : data.telefone,
         }),
       })
+      console.log({body: JSON.stringify({
+          nome: nome.trim() ? nome : data.nome,
+          cpf: cpf.trim() ? cpf : data.cpf,
+          email: email.trim() ? email : data.email,
+          telefone: telefone.trim() ? telefone : data.telefone,
+        })})
       const dadosBD = await response.json()
-      setData([dadosBD])
+      metodoGetAll()
       limparCampos()
     } catch (error) {
       setErroMsg("Erro ao atualizar cliente")
@@ -106,7 +112,7 @@ export default function App() {
         method: "DELETE",
       })
       const dadosBD = await response.json()
-      setData([dadosBD])
+      metodoGetAll()
       limparCampos()
     } catch (error) {
       setErroMsg("Erro ao deletar cliente")

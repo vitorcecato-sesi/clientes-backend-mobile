@@ -42,10 +42,10 @@ export default function App() {
   //Metodo Get Cliente por ID
   const metodoGetId = async () => {
     try {
-      const response = await fetch(`${URL_API}/clientes/${id}`)
-      const dadosBD = await response.json()
-      setData([dadosBD])
-    } catch (error) {
+      const response = await fetch(`${URL_API}/clientes/${id}`) //Faz uma requisição para a API para buscar pelo id
+      const dadosBD = await response.json() //Recebe os dados em json
+      setData([dadosBD]) //Atualiza os dados com os dados do cliente
+    } catch (error) { //Mensagem de erro
       setErroMsg("Erro ao buscar dados do cliente")
     }
   }
@@ -267,7 +267,7 @@ export default function App() {
             />
             <TouchableOpacity
               style={styles.fecharButton}
-              onPress={() => { setModalGetVisivel(false); setErroMsg(""); setData([]); setId(""); }}
+              onPress={() => { setModalGetVisivel(false); setErroMsg(""); setData([]); setId(""); }} //Fecha o Modal
             >
               <Text style={styles.fecharButtonText}>Fechar</Text>
             </TouchableOpacity>

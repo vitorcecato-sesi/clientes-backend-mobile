@@ -28,13 +28,13 @@ export default function App() {
 
   // Função fetch para metodos GET, POST, PUT e DELETE
 
-  const buscarTodos = async () => {
+  const metodoGettAll = async () => { // Buscar todos os clientes
     try {
-      const response = await fetch(`${URL_API}/clientes/`)
-      const dadosBD = await response.json()
-      setData(dadosBD)
-    } catch (error) {
-      setErroMsg("Erro ao buscar dados do cliente")
+      const response = await fetch(`${URL_API}/clientes/`) // Chamada para API
+      const dadosBD = await response.json() // Converter para JSON
+      setData(dadosBD) // Armazenar os dados no state
+    } catch (error) { // Em caso de erro
+      setErroMsg("Erro ao buscar dados do cliente") // Mensagem de erro
     }
   }
 
@@ -226,7 +226,7 @@ export default function App() {
             <View style={styles.rowButtons}>
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#bc66f5ff" }]}
-                onPress={buscarTodos}
+                onPress={metodoGettAll}
               >
                 <Text style={styles.actionButtonText}>Buscar Clientes</Text>
               </TouchableOpacity>

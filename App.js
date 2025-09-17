@@ -100,7 +100,7 @@ export default function App() {
     }
   }
 
-  const metodoDelete = async () => {
+  const metodoDelete = async (id) => {
     try {
       const response = await fetch(`${URL_API}/clientes/${id}`, {
         method: "DELETE",

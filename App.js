@@ -38,6 +38,7 @@ export default function App() {
     }
   }
 
+  //Metodo Get Cliente por ID
   const metodoGetId = async () => {
     try {
       const response = await fetch(`${URL_API}/clientes/${id}`)
@@ -270,9 +271,10 @@ export default function App() {
               >
                 <Text style={styles.actionButtonText}>Buscar Clientes</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#2196F3" }]}
-                onPress={validarCamposGetId}
+                onPress={validarCamposGetId} //Chama a função que valida o campo e procura o cliente pelo ID
               >
                 <Text style={styles.actionButtonText}>Buscar por ID</Text>
               </TouchableOpacity>
@@ -281,21 +283,24 @@ export default function App() {
               placeholder="ID do Cliente"
               value={id}
               onChangeText={setId}
-              keyboardType="numeric"
+              keyboardType="numeric" //Teclado numerico
               style={styles.input}
               placeholderTextColor="#888"
             />
             {erroMsg ? <Text style={styles.erroMsg}>{erroMsg}</Text> : null}
+            
             <FlatList
-              data={data}
+              data={data} // Dados do cliente 
               keyExtractor={(item, index) => (item.id ? item.id.toString() : index.toString())}
-              renderItem={renderizarItem}
+              //Se tiver o id vai transformar em string para renderizar, se nao tiver vai usar o index como id
+              renderItem={renderizarItem} //Vai renderizar o cliente do ID digitado
               style={styles.lista}
-              ListEmptyComponent={<Text style={{ textAlign: "center", color: "#555", marginTop: 20 }}>Nenhum cliente encontrado.</Text>}
+              ListEmptyComponent={ //Se a lista estiver vazia mostra a mensagem
+              <Text style={{ textAlign: "center", color: "#555", marginTop: 20 }}>Nenhum cliente encontrado.</Text>}
             />
             <TouchableOpacity
               style={styles.fecharButton}
-              onPress={() => { setModalGetVisivel(false); setErroMsg(""); setData([]); setId(""); }}
+              onPress={() => { setModalGetVisivel(false); setErroMsg(""); setData([]); setId(""); }} //Fecha o Modal
             >
               <Text style={styles.fecharButtonText}>Fechar</Text>
             </TouchableOpacity>

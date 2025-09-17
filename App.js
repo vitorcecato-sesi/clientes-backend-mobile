@@ -28,7 +28,7 @@ export default function App() {
 
   // Função fetch para metodos GET, POST, PUT e DELETE
 
-  const metodoGettAll = async () => { // buscar todos os clientes
+  const metodoGetAll = async () => { // buscar todos os clientes
     try {
       const response = await fetch(`${URL_API}/clientes/`) // chamada para API
       const dadosBD = await response.json() // converte para JSON

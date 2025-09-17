@@ -22,13 +22,13 @@ export default function App() {
   const [telefone, setTelefone] = useState("")
 
   // Configuração Backend -----------------------------------
-  const ipLocal = "192.168.15.6"
+  const ipLocal = "10.136.38.187"
   const porta = "3000"
   const URL_API = `http://${ipLocal}:${porta}`
 
   // Função fetch para metodos GET, POST, PUT e DELETE
 
-  const metodoGetAll = async () => {
+  const buscarTodos = async () => {
     try {
       const response = await fetch(`${URL_API}/clientes/`)
       const dadosBD = await response.json()
@@ -225,10 +225,10 @@ export default function App() {
             <Text style={styles.modalTitulo}>Lista de Clientes</Text>
             <View style={styles.rowButtons}>
               <TouchableOpacity
-                style={[styles.actionButton, { backgroundColor: "#2196F3" }]}
-                onPress={metodoGetAll}
+                style={[styles.actionButton, { backgroundColor: "#bc66f5ff" }]}
+                onPress={buscarTodos}
               >
-                <Text style={styles.actionButtonText}>Buscar Todos</Text>
+                <Text style={styles.actionButtonText}>Buscar Clientes</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "#2196F3" }]}
@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 13,
     marginBottom: 12,
-    shadowColor: "#1976d2",
+    shadowColor: "#60f1cfff",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.10,
     shadowRadius: 4,
@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     fontSize: 15,
-    color: "#1976D2",
+    color: "#097ec2ff",
     marginBottom: 1,
     fontWeight: "bold",
   },

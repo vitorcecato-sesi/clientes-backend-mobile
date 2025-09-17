@@ -8,6 +8,20 @@ export default function App() {
   const [modalPost, setModalPostVisivel] = useState(false)
   const [modalDelete, setModalDeleteVisivel] = useState(false)
 
+   // Informações do cliente
+  const [id, setId] = useState("")
+  const [nome, setNome] = useState("")
+  const [cpf, setCpf] = useState("")
+  const [email, setEmail] = useState("")
+  const [telefone, setTelefone] = useState("")
+
+  // Configuração Backend -----------------------------------
+  const ipLocal = "192.168.15.6"
+  const porta = "3000"
+  const URL_API = `http://${ipLocal}:${porta}`
+
+  
+
   const renderizarItem = ({ item }) => (
     <View>
       <Text>{item.id} - {item.title}</Text>

@@ -22,7 +22,7 @@ export default function App() {
   const [telefone, setTelefone] = useState("")
 
   // Configuração Backend -----------------------------------
-  const ipLocal = "192.168.15.6"
+  const ipLocal = "10.249.17.47"
   const porta = "3000"
   const URL_API = `http://${ipLocal}:${porta}`
 
@@ -42,7 +42,11 @@ export default function App() {
     try {
       const response = await fetch(`${URL_API}/clientes/${id}`)
       const dadosBD = await response.json()
-      setData([dadosBD])
+      if (Array.isArray(dadosBD)) {
+        setData(dadosBD)
+      } else {
+        setErroMsg("Cliente não encontrado")
+      }
     } catch (error) {
       setErroMsg("Erro ao buscar dados do cliente")
     }
